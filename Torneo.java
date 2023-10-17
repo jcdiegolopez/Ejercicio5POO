@@ -2,7 +2,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 import java.util.Collections;
-
+/**
+ * Esta clase representa un programa de gestión de un torneo de voleibol.
+ */
 public class Torneo{
 
     public static void main(String[] args){
@@ -92,7 +94,14 @@ public class Torneo{
             myScanner.close();
     }
 
-
+ /**
+     * Crea un nuevo jugador con la información proporcionada por el usuario.
+     *
+     * @param myScanner  Scanner para obtener la entrada del usuario.
+     * @param jugadores  Lista de jugadores existentes.
+     * @return El nuevo jugador creado.
+     * @throws Exception Si ocurre un error al crear el jugador.
+     */
     public static Jugador newPlayer(Scanner myScanner, ArrayList<Jugador> jugadores) throws Exception{
         try{
         System.out.println("1. Libero");
@@ -140,6 +149,12 @@ public class Torneo{
             throw new Exception(e.getMessage());
         }   
     }
+    /**
+     * Carga los datos de los jugadores desde archivos CSV.
+     *
+     * @return Una lista de jugadores cargada desde los archivos CSV.
+     * @throws Exception Si ocurre un error al cargar los datos.
+     */
 
     public static ArrayList<Jugador> loadData() throws Exception{
         try{
@@ -168,6 +183,11 @@ public class Torneo{
         }
 
     }
+    /**
+     * Actualiza los datos en el archivo csv.
+     *
+     * @throws Exception Si ocurre un error al subir los datos.
+     */
 
     public static void updateData(ArrayList<Jugador> jugadores)throws Exception{
         try(FileWriter escritor = new FileWriter("libero.csv")){
