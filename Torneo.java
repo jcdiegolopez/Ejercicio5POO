@@ -17,16 +17,26 @@ public class Torneo{
                     System.out.println("No se ha logrado cargar la informacion: "+e.getMessage());
                 }
                 if(jugadores != null){
-                System.out.println("1. Top 3 Mejores liberos");
-                System.out.println("2. Cantidad de pasadores con mas de 80% de efectividad");
-                System.out.println("3. Mostrar jugadores");
-                System.out.println("4. Salir");
+                System.out.println("1. Ingresar nuevo jugador");
+                System.out.println("2. Top 3 Mejores liberos");
+                System.out.println("3. Cantidad de pasadores con mas de 80% de efectividad");
+                System.out.println("4. Mostrar jugadores");
+                System.out.println("5. Salir");
                 System.out.println("Ingrese lo que desea hacer: ");
 
                 int opt = myScanner.nextInt();
 
                 switch (opt) {
                     case 1:
+                        try {
+                            jugadores.add(newPlayer(myScanner,jugadores));
+                            System.out.println("Se ha añadido el nuevo jugador");
+                            updateData(jugadores);
+                        } catch (Exception e) {
+                            System.out.println("No se ha añadido el jugador" + e.getMessage());
+                        }
+                    break;
+                    case 2:
                         ArrayList<Integer> porcetages = new ArrayList<Integer>();
                         ArrayList<Libero> liberos = new ArrayList<Libero>();
                         for (Jugador jugador : jugadores) {
@@ -44,7 +54,7 @@ public class Torneo{
                             x++;
                         }
                         break;
-                    case 2:
+                    case 3:
                     int cont = 0;
                         for (Jugador jugador : jugadores) {
                             if(jugador instanceof Pasador){
@@ -56,12 +66,12 @@ public class Torneo{
                         }
                         System.out.println("La cantidad de pasadores con mas de 80% de efectivad es: "+cont);
                         break;
-                    case 3:
+                    case 4:
                         for(Jugador jugador : jugadores){
                             System.out.println(jugador.toString());
                         }
                         break;    
-                    case 4:
+                    case 5:
                         try {
                             updateData(jugadores);
                         } catch (Exception e) {
@@ -80,6 +90,55 @@ public class Torneo{
             }
 
             myScanner.close();
+    }
+
+
+    public static Jugador newPlayer(Scanner myScanner, ArrayList<Jugador> jugadores) throws Exception{
+        try{
+        System.out.println("1. Libero");
+        System.out.println("2. Pasador");
+        System.out.println("3. Auxiliar");
+        System.out.println("Elija el jugador de preferencia: ");
+        int opt = myScanner.nextInt();
+
+
+        System.out.println("Ingrese el nombre del jugador: ");
+        String nombre = myScanner.next();
+        System.out.println("Ingrese el pais del juagdor: ");
+        String pais = myScanner.next();
+        System.out.println("Ingrese la cantidad de errores del jugador: ");
+        int errores = myScanner.nextInt();
+        System.out.println("Ingrese la cantidad de aces del jugador: ");
+        int aces = myScanner.nextInt();
+        System.out.println("Ingrese la cantidad de servicios del jugador: ");
+        int servicios = myScanner.nextInt();
+
+        switch (opt) {
+            case 1:
+                System.out.println("Ingrese la cantidad de recibos efectivos del jugador: ");
+                int recibosE = myScanner.nextInt();
+                return new Libero(nombre,pais, errores,aces,servicios,recibosE);
+            case 2:
+                System.out.println("Ingrese la cantidad de pases del jugador: ");
+                int pases = myScanner.nextInt();
+                System.out.println("Ingrese la cantidad de fintas del jugador: ");
+                int fintas = myScanner.nextInt();
+                return new Pasador(nombre,pais, errores,aces,servicios,pases,fintas);
+            case 3:
+                System.out.println("Ingrese la cantidad de ataques del jugador: ");
+                int ataques = myScanner.nextInt();
+                System.out.println("Ingrese la cantidad de bloqueos efectivos del jugador: ");
+                int bloqueosE = myScanner.nextInt();
+                System.out.println("Ingrese la cantidad de bloqueos fallidos del jugador: ");
+                int bloqueosF = myScanner.nextInt();
+                return new Auxiliar(nombre,pais, errores,aces,servicios,ataques,bloqueosE,bloqueosF);
+        
+            default:
+                throw new Exception("No es una opcion valida");        
+        }
+        }catch(Exception e){
+            throw new Exception(e.getMessage());
+        }   
     }
 
     public static ArrayList<Jugador> loadData() throws Exception{
